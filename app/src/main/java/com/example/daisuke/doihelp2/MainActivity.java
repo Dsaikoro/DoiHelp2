@@ -3,6 +3,7 @@ package com.example.daisuke.doihelp2;
 import android.app.Activity;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -10,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-
 import java.util.Random;
 
 public class MainActivity extends Activity implements View.OnTouchListener{
@@ -25,6 +25,7 @@ public class MainActivity extends Activity implements View.OnTouchListener{
     ImageView tonboImage;
     ImageView roughImages[];
     Random rand;
+    private Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
