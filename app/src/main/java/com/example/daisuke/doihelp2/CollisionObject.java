@@ -5,10 +5,10 @@ import android.widget.ImageView;
 /**
  * Created by Daisuke on 2016/07/21.
  */
-public class CollisionObject extends ViewedObject{
+public class CollisionObject extends ViewedObject {
     protected int width, height;
 
-    public CollisionObject(ImageView image, int width, int height){
+    public CollisionObject(ImageView image, int width, int height) {
         super(image);
 
         this.width = width;

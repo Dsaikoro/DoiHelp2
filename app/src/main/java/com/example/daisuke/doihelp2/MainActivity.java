@@ -49,7 +49,7 @@ public class MainActivity extends Activity implements View.OnTouchListener{
             varLayout.addView(roughImages[i]);
 
             roughs[i] = new Rough(roughImages[i], ROUGH_WIDTH, ROUGH_HEIGHT);
-            roughs[i].draw();
+
         }
 
         tonboImage = new ImageView(this);
