@@ -8,7 +8,7 @@ import android.widget.ImageView;
 public class ViewedObject {
     protected int x, y;
     private ImageView image;
-    private boolean useFlag;
+    protected boolean useFlag;
 
     public ViewedObject(ImageView image) {
         this.x = image.getLeft();

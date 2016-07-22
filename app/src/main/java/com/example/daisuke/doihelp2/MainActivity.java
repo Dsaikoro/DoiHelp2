@@ -72,12 +72,16 @@ public class MainActivity extends Activity implements View.OnTouchListener{
 
         switch(event.getAction()){
             case MotionEvent.ACTION_MOVE:
-                int diffx = lastX - x;
-                int diffy = lastY - y;
+                int diffX = lastX - x;
+                int diffY = lastY - y;
 
 //                view.layout(x, y, x + view.getWidth(), y + view.getHeight());
-                tonbo.move(-diffx, -diffy, varLayout.getWidth(), varLayout.getHeight());
+                tonbo.move(-diffX, -diffY, varLayout.getWidth(), varLayout.getHeight());
                 tonbo.draw();
+
+                for (int i = 0; i < roughs.length; i++)
+                    if (roughs[i].getUseFlag() && roughs[i].collision(tonbo))
+                        roughs[i].despawn();
         }
 
         lastX = x;

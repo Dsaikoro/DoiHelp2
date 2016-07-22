@@ -20,4 +20,8 @@ public class Rough extends CollisionObject {
     public void despawn() {
         setUseFlag(false);
     }
+
+    public boolean getUseFlag() {
+        return useFlag;
+    }
 }
