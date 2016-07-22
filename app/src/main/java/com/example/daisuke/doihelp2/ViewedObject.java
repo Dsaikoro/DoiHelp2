@@ -3,7 +3,7 @@ package com.example.daisuke.doihelp2;
 import android.widget.ImageView;
 
 /**
- * Created by Daisuke on 2016/07/21.
+ * ViewObject is extended display object class
  */
 public class ViewedObject {
     protected int x, y;
@@ -18,8 +18,11 @@ public class ViewedObject {
     }
 
     public void draw() {
-        //TODO: flag で非表示
-        image.layout(x, y, x + image.getWidth(), y + image.getHeight());
+        if (this.useFlag) {
+            image.layout(x, y, x + image.getWidth(), y + image.getHeight());
+        } else {
+            image.layout(-1, -1, -1, -1);
+        }
     }
 
     public void changeImage(){
