@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -49,12 +48,7 @@ public class MainActivity extends Activity implements View.OnTouchListener{
             roughImages[i].setLayoutParams(new ViewGroup.LayoutParams(ROUGH_WIDTH, ROUGH_HEIGHT));
             varLayout.addView(roughImages[i]);
 
-//            int x = rand.nextInt(varLayout.getWidth() - ROUGH_WIDTH);
-//            int y = rand.nextInt(varLayout.getHeight() - ROUGH_HEIGHT);
-            int x,y;
-            x = i*30;
-            y = i*30;
-            roughs[i] = new Rough(x, y, roughImages[i], ROUGH_WIDTH, ROUGH_HEIGHT);
+            roughs[i] = new Rough(roughImages[i], ROUGH_WIDTH, ROUGH_HEIGHT);
             roughs[i].draw();
         }
 
@@ -65,7 +59,7 @@ public class MainActivity extends Activity implements View.OnTouchListener{
         tonboImage.setOnTouchListener(this);
         varLayout.addView(tonboImage);
 
-        tonbo = new Tonbo(0, 0, tonboImage, TONBO_WIDTH, TONBO_HEIGHT/10);
+        tonbo = new Tonbo(tonboImage, TONBO_WIDTH, TONBO_HEIGHT/10);
 //        tonbo = new Tonbo(50, 0, tonboImage, TONBO_WIDTH, TONBO_HEIGHT/10);
 //        tonbo.draw();
 //        tonboImage.layout(100, 500, 100 + tonboImage.getWidth(), 500 + tonboImage.getHeight());

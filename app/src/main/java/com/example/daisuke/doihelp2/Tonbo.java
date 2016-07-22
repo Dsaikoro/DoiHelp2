@@ -6,8 +6,8 @@ import android.widget.ImageView;
  * Created by Daisuke on 2016/07/21.
  */
 public class Tonbo extends CollisionObject {
-    public Tonbo(int x, int y, ImageView image, int width, int height) {
-        super(x, y, image, width, height);
+    public Tonbo(ImageView image, int width, int height) {
+        super(image, width, height);
         setUseFlag(true);
     }
 

@@ -8,8 +8,8 @@ import android.widget.ImageView;
 public class CollisionObject extends ViewedObject{
     protected int width, height;
 
-    public CollisionObject(int x, int y, ImageView image, int width, int height){
-        super(x, y, image);
+    public CollisionObject(ImageView image, int width, int height){
+        super(image);
 
         this.width = width;
         this.height = height;
