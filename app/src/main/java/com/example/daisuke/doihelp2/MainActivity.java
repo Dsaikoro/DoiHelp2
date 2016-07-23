@@ -32,7 +32,7 @@ public class MainActivity extends Activity implements View.OnTouchListener{
         private int x,y;
         @Override
         public void run() {
-            for(int i = 0; i < 10; i++) {
+            for(int i = 0; i < roughs.length; i++) {
                 if (!roughs[i].getUseFlag()){
                     x = rand.nextInt(layoutHeight - ROUGH_WIDTH);
                     y = rand.nextInt(layoutWidth - ROUGH_HEIGHT);
@@ -55,7 +55,7 @@ public class MainActivity extends Activity implements View.OnTouchListener{
 
         roughImages = new ImageView[10];
         roughs = new Rough[10];
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < roughs.length; i++) {
             roughImages[i] = new ImageView(this);
             roughImages[i].setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.rough));
             roughImages[i].setLayoutParams(new ViewGroup.LayoutParams(ROUGH_WIDTH, ROUGH_HEIGHT));
@@ -69,7 +69,7 @@ public class MainActivity extends Activity implements View.OnTouchListener{
         varLayout.addView(tonboImage);
 
         tonbo = new Tonbo(tonboImage, TONBO_WIDTH, TONBO_HEIGHT/10);
-        for(int i = 0; i < 10; i++) roughs[i] = new Rough(roughImages[i], ROUGH_WIDTH, ROUGH_HEIGHT);
+        for(int i = 0; i < roughs.length; i++) roughs[i] = new Rough(roughImages[i], ROUGH_WIDTH, ROUGH_HEIGHT);
     }
 
     @Override
@@ -93,6 +93,12 @@ public class MainActivity extends Activity implements View.OnTouchListener{
 
                 tonbo.move(-diffx, -diffy, varLayout.getWidth(), varLayout.getHeight());
                 tonbo.draw();
+
+                for (int i = 0; i < roughs.length; i++) {
+                    if (roughs[i].getUseFlag() && roughs[i].collision(tonbo)) {
+                        roughs[i].despawn();
+                    }
+                }
         }
 
         lastX = x;
