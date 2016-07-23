@@ -31,4 +31,6 @@ public class ViewedObject {
     public void setUseFlag(boolean flag) {
         this.useFlag = flag;
     }
+
+    public boolean getUseFlag() { return useFlag; }
 }

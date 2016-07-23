@@ -14,8 +14,8 @@ public class Rough extends CollisionObject {
     public void spawn(int x, int y) {
         this.x = x;
         this.y = y;
-        draw();
         setUseFlag(true);
+        draw();
     }
 
     public void despawn() {

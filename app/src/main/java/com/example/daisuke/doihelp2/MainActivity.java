@@ -28,13 +28,21 @@ public class MainActivity extends Activity implements View.OnTouchListener{
     private int layoutWidth, layoutHeight;
 
     private Handler handler;
-    private Runnable drawRough = new Runnable() {
+    private Runnable spawnRough = new Runnable() {
+        private int x,y;
         @Override
         public void run() {
             for(int i = 0; i < 10; i++) {
-                roughs[i].draw();
+                if (!roughs[i].getUseFlag()){
+                    x = rand.nextInt(layoutHeight - ROUGH_WIDTH);
+                    y = rand.nextInt(layoutWidth - ROUGH_HEIGHT);
+//                    x = 100*i;
+//                    y = 100*i;
+                    roughs[i].spawn(x, y);
+                }
             }
         }
+
     };
 
     @Override
@@ -61,9 +69,7 @@ public class MainActivity extends Activity implements View.OnTouchListener{
         varLayout.addView(tonboImage);
 
         tonbo = new Tonbo(tonboImage, TONBO_WIDTH, TONBO_HEIGHT/10);
-//        tonbo = new Tonbo(50, 0, tonboImage, TONBO_WIDTH, TONBO_HEIGHT/10);
-//        tonbo.draw();
-//        tonboImage.layout(100, 500, 100 + tonboImage.getWidth(), 500 + tonboImage.getHeight());
+        for(int i = 0; i < 10; i++) roughs[i] = new Rough(roughImages[i], ROUGH_WIDTH, ROUGH_HEIGHT);
     }
 
     @Override
@@ -71,16 +77,8 @@ public class MainActivity extends Activity implements View.OnTouchListener{
         super.onWindowFocusChanged(hasFocus);
         layoutWidth = findViewById(R.id.mainLayout).getWidth();
         layoutHeight = findViewById(R.id.mainLayout).getHeight();
-
-        for(int i = 0; i < 10; i++) {
-            int x, y;
-            x = rand.nextInt(layoutHeight - ROUGH_WIDTH);
-            y = rand.nextInt(layoutWidth - ROUGH_HEIGHT);
-
-            roughs[i] = new Rough(roughImages[i], ROUGH_WIDTH, ROUGH_HEIGHT);
-
-            roughs[i].draw();
-        }
+        handler = new Handler();
+        handler.postDelayed(spawnRough, 0);
     }
 
     @Override
