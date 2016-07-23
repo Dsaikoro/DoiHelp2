@@ -10,16 +10,18 @@ public class ViewedObject {
     private ImageView image;
     private boolean useFlag;
 
-    public ViewedObject(int x, int y, ImageView image) {
-        this.x = x;
-        this.y = y;
+    public ViewedObject(ImageView image) {
+        this.x = image.getLeft();
+        this.y = image.getTop();
         this.image = image;
         this.useFlag = false;
     }
 
     public void draw() {
-        //TODO: flag で非表示
-        image.layout(x, y, x + image.getWidth(), y + image.getHeight());
+        if (useFlag)
+            image.layout(x, y, x + image.getWidth(), y + image.getHeight());
+        else
+            image.layout(-1, -1, -1, -1);
     }
 
     public void changeImage(){
