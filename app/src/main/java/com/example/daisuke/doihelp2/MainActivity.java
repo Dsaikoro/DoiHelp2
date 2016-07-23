@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Bundle;
+import android.os.Message;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,8 @@ public class MainActivity extends Activity implements View.OnTouchListener{
     private static final int ROUGH_WIDTH = 60;
     private static final int ROUGH_HEIGHT = 30;
     private static final int ROUGH_SPAWN_MAX = 20;
+    private static final int TIMEOUT_MESSAGE = 1;
+    private static final int ROUGH_SPAWN_INTERVAL = 1000;
     private int lastX, lastY;
     private RelativeLayout varLayout;
     ImageView tonboImage;
@@ -29,22 +32,7 @@ public class MainActivity extends Activity implements View.OnTouchListener{
     private int layoutWidth, layoutHeight;
 
     private Handler handler;
-    private Runnable spawnRough = new Runnable() {
-        private int x,y;
-        @Override
-        public void run() {
-            for(int i = 0; i < roughs.length; i++) {
-                if (!roughs[i].getUseFlag()){
-                    x = rand.nextInt(layoutWidth - ROUGH_WIDTH);
-                    y = rand.nextInt(layoutHeight - ROUGH_HEIGHT);
-//                    x = 100*i;
-//                    y = 100*i;
-                    roughs[i].spawn(x, y);
-                }
-            }
-        }
-
-    };
+    private Runnable spawnRough;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,15 +50,14 @@ public class MainActivity extends Activity implements View.OnTouchListener{
             roughImages[i].setLayoutParams(new ViewGroup.LayoutParams(ROUGH_WIDTH, ROUGH_HEIGHT));
             varLayout.addView(roughImages[i]);
         }
+        for(int i = 0; i < roughs.length; i++) roughs[i] = new Rough(roughImages[i], ROUGH_WIDTH, ROUGH_HEIGHT);
 
         tonboImage = new ImageView(this);
         tonboImage.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.tonbo));
         tonboImage.setLayoutParams(new ViewGroup.LayoutParams(TONBO_WIDTH, TONBO_HEIGHT));
         tonboImage.setOnTouchListener(this);
         varLayout.addView(tonboImage);
-
         tonbo = new Tonbo(tonboImage, TONBO_WIDTH, TONBO_HEIGHT/10);
-        for(int i = 0; i < roughs.length; i++) roughs[i] = new Rough(roughImages[i], ROUGH_WIDTH, ROUGH_HEIGHT);
     }
 
     @Override
@@ -79,7 +66,38 @@ public class MainActivity extends Activity implements View.OnTouchListener{
         layoutWidth = findViewById(R.id.mainLayout).getWidth();
         layoutHeight = findViewById(R.id.mainLayout).getHeight();
         handler = new Handler();
+        spawnRough = new Runnable() {
+            private int x,y;
+            @Override
+            public void run() {
+                for (int i = 0; i < roughs.length; i++) {
+                    if (!roughs[i].getUseFlag()) {
+                        x = rand.nextInt(layoutWidth - ROUGH_WIDTH);
+                        y = rand.nextInt(layoutHeight - ROUGH_HEIGHT);
+                        roughs[i].spawn(x, y);
+                        break;
+                    }
+                }
+                handler.postDelayed(spawnRough, 100);
+            }
+        };
         handler.postDelayed(spawnRough, 0);
+//        spawnRough = new Runnable() {
+//            private int x,y;
+//            @Override
+//            public void run() {
+//                boolean runFlag = true;
+//                for (int i = 0; i < roughs.length && runFlag; i++) {
+//                    if (!roughs[i].getUseFlag()) {
+//                        x = rand.nextInt(layoutWidth - ROUGH_WIDTH);
+//                        y = rand.nextInt(layoutHeight - ROUGH_HEIGHT);
+//                        roughs[i].spawn(x, y);
+//                        runFlag = false;
+//                    }
+//                }
+//                handler.postDelayed(spawnRough, 500);
+//            }
+//        };
     }
 
     @Override

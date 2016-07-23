@@ -21,7 +21,7 @@ public class ViewedObject {
         if (useFlag)
             image.layout(x, y, x + image.getWidth(), y + image.getHeight());
         else
-            image.layout(-1, -1, -1, -1);
+            image.layout(-image.getWidth(), -image.getHeight(), 0, 0);
     }
 
     public void changeImage(){
