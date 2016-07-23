@@ -20,6 +20,7 @@ public class MainActivity extends Activity implements View.OnTouchListener{
     private static final int TONBO_HEIGHT = 500;
     private static final int ROUGH_WIDTH = 60;
     private static final int ROUGH_HEIGHT = 30;
+    private static final int ROUGH_SPAWN_MAX = 20;
     private int lastX, lastY;
     private RelativeLayout varLayout;
     ImageView tonboImage;
@@ -34,8 +35,8 @@ public class MainActivity extends Activity implements View.OnTouchListener{
         public void run() {
             for(int i = 0; i < roughs.length; i++) {
                 if (!roughs[i].getUseFlag()){
-                    x = rand.nextInt(layoutHeight - ROUGH_WIDTH);
-                    y = rand.nextInt(layoutWidth - ROUGH_HEIGHT);
+                    x = rand.nextInt(layoutWidth - ROUGH_WIDTH);
+                    y = rand.nextInt(layoutHeight - ROUGH_HEIGHT);
 //                    x = 100*i;
 //                    y = 100*i;
                     roughs[i].spawn(x, y);
@@ -53,8 +54,8 @@ public class MainActivity extends Activity implements View.OnTouchListener{
         varLayout = (RelativeLayout) findViewById(R.id.mainLayout);
         varLayout.setBackgroundColor(Color.rgb(176,110,53));
 
-        roughImages = new ImageView[10];
-        roughs = new Rough[10];
+        roughImages = new ImageView[ROUGH_SPAWN_MAX];
+        roughs = new Rough[ROUGH_SPAWN_MAX];
         for (int i = 0; i < roughs.length; i++) {
             roughImages[i] = new ImageView(this);
             roughImages[i].setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.rough));
