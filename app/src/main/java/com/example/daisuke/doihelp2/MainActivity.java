@@ -16,7 +16,7 @@ import java.util.Random;
 public class MainActivity extends Activity implements View.OnTouchListener{
     private static final int ROUGH_WIDTH = 60;
     private static final int ROUGH_HEIGHT = 30;
-    private static final int ROUGH_SPAWN_MAX = 50;
+    private static final int ROUGH_SPAWN_MAX = 100;
     private static final int ROUGH_RESPAWN_TIME = 200;
     private static final int TONBO_WIDTH = 400;
     private static final int TONBO_HEIGHT = 500;
@@ -25,6 +25,7 @@ public class MainActivity extends Activity implements View.OnTouchListener{
     private int layoutWidth, layoutHeight;
     Rough roughs[];
     ImageView roughImages[];
+    private boolean startFlag;
     Random rand;
     private Handler handler;
     private Runnable spawnRough;
@@ -48,6 +49,7 @@ public class MainActivity extends Activity implements View.OnTouchListener{
             varLayout.addView(roughImages[i]);
         }
         for(int i = 0; i < roughs.length; i++) roughs[i] = new Rough(roughImages[i], ROUGH_WIDTH, ROUGH_HEIGHT);
+        startFlag = true;
 
         tonboImage = new ImageView(this);
         tonboImage.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.tonbo));
@@ -66,8 +68,15 @@ public class MainActivity extends Activity implements View.OnTouchListener{
         rand = new Random();
         spawnRough = new Runnable() {
             private int x,y;
+
             @Override
             public void run() {
+                if(startFlag){
+                    for (int i = 0; i < roughs.length; i++) {
+                        roughs[i].draw();
+                    }
+                    startFlag = false;
+                }
                 for (int i = 0; i < roughs.length; i++) {
                     if (!roughs[i].getUseFlag()) {
                         x = rand.nextInt(layoutWidth - ROUGH_WIDTH);
