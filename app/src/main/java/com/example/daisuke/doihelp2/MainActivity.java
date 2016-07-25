@@ -5,7 +5,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Bundle;
-import android.os.Message;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,30 +14,28 @@ import android.widget.RelativeLayout;
 import java.util.Random;
 
 public class MainActivity extends Activity implements View.OnTouchListener{
-    Tonbo tonbo;
-    Rough roughs[];
-    private static final int TONBO_WIDTH = 400;
-    private static final int TONBO_HEIGHT = 500;
     private static final int ROUGH_WIDTH = 60;
     private static final int ROUGH_HEIGHT = 30;
-    private static final int ROUGH_SPAWN_MAX = 20;
-    private static final int TIMEOUT_MESSAGE = 1;
-    private static final int ROUGH_SPAWN_INTERVAL = 1000;
-    private int lastX, lastY;
+    private static final int ROUGH_SPAWN_MAX = 50;
+    private static final int ROUGH_RESPAWN_TIME = 200;
+    private static final int TONBO_WIDTH = 400;
+    private static final int TONBO_HEIGHT = 500;
+
     private RelativeLayout varLayout;
-    ImageView tonboImage;
+    private int layoutWidth, layoutHeight;
+    Rough roughs[];
     ImageView roughImages[];
     Random rand;
-    private int layoutWidth, layoutHeight;
-
     private Handler handler;
     private Runnable spawnRough;
+    Tonbo tonbo;
+    ImageView tonboImage;
+    private int lastX, lastY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        rand = new Random();
         varLayout = (RelativeLayout) findViewById(R.id.mainLayout);
         varLayout.setBackgroundColor(Color.rgb(176,110,53));
 
@@ -66,6 +63,7 @@ public class MainActivity extends Activity implements View.OnTouchListener{
         layoutWidth = findViewById(R.id.mainLayout).getWidth();
         layoutHeight = findViewById(R.id.mainLayout).getHeight();
         handler = new Handler();
+        rand = new Random();
         spawnRough = new Runnable() {
             private int x,y;
             @Override
@@ -78,26 +76,10 @@ public class MainActivity extends Activity implements View.OnTouchListener{
                         break;
                     }
                 }
-                handler.postDelayed(spawnRough, 100);
+                handler.postDelayed(spawnRough, ROUGH_RESPAWN_TIME);
             }
         };
         handler.postDelayed(spawnRough, 0);
-//        spawnRough = new Runnable() {
-//            private int x,y;
-//            @Override
-//            public void run() {
-//                boolean runFlag = true;
-//                for (int i = 0; i < roughs.length && runFlag; i++) {
-//                    if (!roughs[i].getUseFlag()) {
-//                        x = rand.nextInt(layoutWidth - ROUGH_WIDTH);
-//                        y = rand.nextInt(layoutHeight - ROUGH_HEIGHT);
-//                        roughs[i].spawn(x, y);
-//                        runFlag = false;
-//                    }
-//                }
-//                handler.postDelayed(spawnRough, 500);
-//            }
-//        };
     }
 
     @Override
@@ -119,7 +101,6 @@ public class MainActivity extends Activity implements View.OnTouchListener{
                     }
                 }
         }
-
         lastX = x;
         lastY = y;
         return true;
