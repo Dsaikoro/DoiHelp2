@@ -69,8 +69,8 @@ public class MainActivity extends Activity implements View.OnTouchListener{
     public boolean onTouch(View view, MotionEvent event) {
         int x = (int)event.getRawX();
         int y = (int)event.getRawY();
-
         switch(event.getAction()){
+
             case MotionEvent.ACTION_MOVE:
                 int diffX = lastX - x;
                 int diffY = lastY - y;
